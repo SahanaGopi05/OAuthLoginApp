@@ -1,0 +1,41 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "GoogleOAuthDemo/1.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Authentication.Google": "9.0.5"
+        },
+        "runtime": {
+          "GoogleOAuthDemo.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.Google/9.0.5": {
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.Authentication.Google.dll": {
+            "assemblyVersion": "9.0.5.0",
+            "fileVersion": "9.0.525.22904"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "GoogleOAuthDemo/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.AspNetCore.Authentication.Google/9.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-K6b2OX3eY4RAwySFxfOTlBNvPw8OYRWTYKV7XFGaYhKQaaq3ooxsg0tzHsH/UxwK7SDTpnXiHYVcbMBFFlYmxw==",
+      "path": "microsoft.aspnetcore.authentication.google/9.0.5",
+      "hashPath": "microsoft.aspnetcore.authentication.google.9.0.5.nupkg.sha512"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+@{
+    ViewData["Title"] = "Google Login Success";
+}
+
+<h2>Welcome! You have logged in via Google.</h2>
+
+<ul>
+@foreach (var claim in ViewBag.Claims)
+{
+    <li><strong>@claim.Type:</strong> @claim.Value</li>
+}
+</ul>
+
+<a class="btn btn-danger" href="/account/logout">Logout</a>

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "SUMzzVEUJtk=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\sures\\OneDrive\\Desktop\\C#\\GoogleOAuthDemo\\GoogleOAuthDemo.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\sures\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\9.0.5\\microsoft.aspnetcore.authentication.google.9.0.5.nupkg.sha512"
+  ],
+  "logs": []
+}

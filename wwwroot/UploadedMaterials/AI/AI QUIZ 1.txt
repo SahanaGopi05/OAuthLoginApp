@@ -1,0 +1,36 @@
+AI QUIZ 1
+Q1. What is the primary goal of Artificial Intelligence (AI)?
+A. To solve mathematical problems
+B. To develop software for mobile devices
+C. To simulate human intelligence in machines
+D. To control computer hardware
+Answer: C
+________________________________________
+Q2. Which of the following is NOT a type of AI?
+A. Narrow AI
+B. General AI
+C. Super AI
+D. Virtual AI
+Answer: D
+________________________________________
+Q3. Which programming language is widely used in AI development?
+A. HTML
+B. Python
+C. CSS
+D. PHP
+Answer: B
+________________________________________
+Q4. What does the term "machine learning" refer to in AI?
+A. Writing code manually
+B. Allowing computers to learn from data
+C. Designing hardware for robots
+D. Creating websites
+Answer: B
+________________________________________
+Q5. Which of the following is an example of AI in daily life?
+A. Textbooks
+B. Microwave oven
+C. Voice assistants like Siri or Alexa
+D. Ballpoint pen
+Answer: C
+

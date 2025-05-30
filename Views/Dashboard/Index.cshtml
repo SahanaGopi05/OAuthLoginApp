@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+<div class="container mt-5">
+    <!-- ✅ Upload Success Message Display -->
+    @if (TempData["Message"] != null)
+    {
+    <div class="alert alert-success text-center shadow rounded-4 p-3">
+        @TempData["Message"]
+    </div>
+    }
+
+    <h2 class="text-center mb-4">Welcome, @User.Identity.Name!</h2>
+
+    <div class="row text-center">
+        <div class="col-md-3 mb-4">
+            <a href="/upload/index" class="btn btn-outline-primary w-100 p-4 rounded-4 shadow">📤 Upload Materials</a>
+        </div>
+        <div class="col-md-3 mb-4">
+            <a href="/flashcard/index" class="btn btn-outline-success w-100 p-4 rounded-4 shadow">🧠 Flashcards</a>
+        </div>
+        <div class="col-md-3 mb-4">
+            <a href="/quiz/index" class="btn btn-outline-warning w-100 p-4 rounded-4 shadow">📝 Take a Quiz</a>
+        </div>
+        <div class="col-md-3 mb-4">
+            <a href="/results/index" class="btn btn-outline-info w-100 p-4 rounded-4 shadow">📊 View Results</a>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <a class="btn btn-danger" href="/account/logout">Logout</a>
+    </div>
+</div>

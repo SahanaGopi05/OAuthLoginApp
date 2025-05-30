@@ -1,0 +1,12 @@
+AI QUESTION BANK 1
+
+Q1: What is Artificial Intelligence (AI)? :: AI is the simulation of human intelligence processes by machines, especially computer systems. It enables machines to learn, reason, and make decisions like humans. AI powers technologies such as voice assistants, recommendation systems, and autonomous vehicles.
+________________________________________
+Q2: What are the main types of AI? :: The main types include Narrow AI, which performs specific tasks, General AI that can perform any intellectual task, and Super AI which surpasses human intelligence. Currently, only Narrow AI is widely used in real-world applications.
+________________________________________
+Q3: How does machine learning relate to AI? :: Machine learning is a subset of AI focused on enabling machines to learn from data and improve over time without being explicitly programmed. It uses algorithms to identify patterns and make decisions based on data.
+________________________________________
+Q4: What programming languages are commonly used in AI? :: Python is the most popular language for AI due to its simplicity and rich libraries like TensorFlow and PyTorch. Other languages include R, Java, and C++, each useful for different AI applications.
+________________________________________
+Q5: Name some everyday applications of AI :: Common AI applications include voice assistants like Siri and Alexa, recommendation systems on Netflix or Amazon, and self-driving car technologies. AI enhances efficiency and personalization in many industries.
+

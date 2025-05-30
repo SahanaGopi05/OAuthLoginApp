@@ -1,0 +1,102 @@
+﻿@model IEnumerable<GoogleOAuthDemo.Models.TestResult>
+@{
+    ViewData["Title"] = "Quiz Results";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<div class="container py-5">
+    <h2 class="text-center mb-4">📊 Quiz Results</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="card text-center text-white bg-secondary p-4">
+            <h4>No test results available.</h4>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered text-white table-hover">
+                <thead>
+                    <tr style="background-color: rgba(255, 255, 255, 0.1);">
+                        <th>👤 Username</th>
+                        <th>📘 Subject</th>
+                        <th>✅ Score</th>
+                        <th>🕒 Date Taken</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var result in Model)
+                    {
+                        <tr>
+                            <td>@result.Username</td>
+                            <td>@result.Subject</td>
+                            <td>@result.Score</td>
+                            <td>@result.DateTaken.ToString("dd MMM yyyy, hh:mm tt")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <div class="mt-4 d-flex justify-content-center">
+        <a href="/Home/Dashboard" class="btn btn-outline-light px-4 py-2 rounded-3">🏠 Return to Dashboard</a>
+    </div>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+        color: white;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+    }
+
+    h2 {
+        font-weight: bold;
+        color: #ffffff;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    table {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th, td {
+        text-align: center;
+        padding: 12px;
+        vertical-align: middle;
+    }
+
+    th {
+        color: #f8f9fa;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    td {
+        font-size: 0.95rem;
+    }
+
+    tr:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-outline-light:hover {
+        background-color: #ffffff;
+        color: #000000;
+        font-weight: bold;
+    }
+</style>

@@ -1,0 +1,8 @@
+SE QUESTION BANK 1
+
+•	Q: What is requirement analysis? :: Gathering and defining what users need from the software.
+•	Q: Describe the Agile model. :: An iterative SDLC model promoting customer collaboration.
+•	Q: What is UML? :: Unified Modeling Language for visual software modeling.
+•	Q: Define software design pattern. :: Reusable solutions for common design problems.
+•	Q: Why use version control? :: Manages code changes and tracks history.
+

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,16 +14,17 @@ public class AccountController : Controller
     public async Task<IActionResult> GoogleResponse()
     {
         var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        var claims = result.Principal.Identities
-            .FirstOrDefault()?.Claims
-            .Select(claim => new
-            {
-                claim.Type,
-                claim.Value
-            });
 
-        ViewBag.Claims = claims;
-        return View();
+        if (!result.Succeeded || result.Principal == null)
+        {
+            return RedirectToAction("Login");
+        }
+
+        var userName = result.Principal.Identity?.Name;
+        HttpContext.Session.SetString("UserName", userName ?? "Guest");
+
+        // 🔄 Redirect to AI Dashboard after successful login
+        return RedirectToAction("Dashboard", "Home");
     }
 
     public async Task<IActionResult> Logout()

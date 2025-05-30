@@ -1,0 +1,7 @@
+ISS QUESTION BANK 2
+Q1: What is two-factor authentication (2FA)? :: 2FA adds an extra layer of security by requiring two forms of verification: something you know (password) and something you have (OTP or device).
+Q2: What is ransomware? :: Ransomware is malware that locks a user's data and demands payment in exchange for access restoration.
+Q3: What is authentication in cybersecurity? :: Authentication verifies the identity of a user before granting access to systems or data.
+Q4: What is a DDoS attack? :: A Distributed Denial-of-Service (DDoS) attack floods a server or network with traffic, making it inaccessible to users.
+Q5: Why is antivirus software important? :: Antivirus programs detect, block, and remove malicious software to keep systems secure.
+

@@ -1,0 +1,11 @@
+AI QUESTION BANK 2
+Q6: What is deep learning in AI? :: Deep learning is a subset of machine learning that uses neural networks with many layers to model complex patterns. It’s especially effective in image and speech recognition. Deep learning powers technologies like facial recognition and language translation.
+________________________________________
+Q7: What are neural networks? :: Neural networks are computational models inspired by the human brain’s network of neurons. They consist of layers of nodes that process input data to detect patterns and make predictions. Neural networks are key to deep learning’s success.
+________________________________________
+Q8: What is natural language processing (NLP)? :: NLP is a branch of AI that enables computers to understand, interpret, and generate human language. It’s used in chatbots, language translation, and sentiment analysis. NLP bridges the gap between human communication and computers.
+________________________________________
+Q9: What ethical concerns are associated with AI? :: AI raises issues like bias in algorithms, privacy invasion, job displacement, and decision transparency. Responsible AI development aims to address these concerns through fairness, accountability, and regulation. Ethics is critical for trustworthy AI.
+________________________________________
+Q10: How does reinforcement learning work? :: Reinforcement learning is an AI training method where an agent learns by receiving rewards or penalties for actions. It improves performance by trial and error, similar to how humans learn from experience. It’s used in robotics, gaming, and autonomous systems.
+

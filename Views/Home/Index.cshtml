@@ -1,19 +1,67 @@
 ﻿@{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Home Page";
 }
 
-<div style="text-align:center; margin-top: 100px;">
-    <h1>Welcome to Google OAuth Demo</h1>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+        color: white;
+        min-height: 100vh;
+    }
 
-    @if (User.Identity.IsAuthenticated)
-    {
-    <p>Hello, @User.Identity.Name!</p>
-    <a class="btn btn-danger" href="/account/logout">Logout</a>
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 60px 20px;
+        min-height: calc(100vh - 80px);
     }
-    else
-    {
-    <a class="btn btn-primary" href="/account/login">Login with Google</a>
+
+        .main-content h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            margin-top: -60px;
+            letter-spacing: 1px;
+        }
+
+        .main-content p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            line-height: 1.6;
+            color: #dcdcdc;
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+    .login-button {
+        padding: 12px 28px;
+        background-color: transparent;
+        border: 1px solid white;
+        border-radius: 30px;
+        font-size: 1rem;
+        color: white;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
     }
+
+        .login-button:hover {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+        }
+</style>
+
+<div class="main-content">
+    <h1>Welcome to LearnMate</h1>
+    <p>
+        A simple, intelligent tool to transform your study materials into flashcards and quizzes.<br />
+        Upload content, learn smart, and stay ahead — all powered by AI.
+    </p>
+    <a class="login-button" href="/account/login">Login with Google</a>
 </div>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">

@@ -1,0 +1,155 @@
+﻿@{
+    ViewData["Title"] = "Quiz";
+    var subjects = ViewBag.Subjects as List<string> ?? new List<string>();
+    var selectedSubject = ViewBag.SelectedSubject as string;
+    var submitted = ViewBag.Submitted as bool? ?? false;
+    var questions = ViewBag.Questions as dynamic;
+    var score = ViewBag.Score as int? ?? 0;
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<style>
+    body {
+        background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+        font-family: 'Segoe UI', sans-serif;
+        color: white;
+    }
+
+    .dropdown-section {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .quiz-card {
+        background-color: #1e1e2f;
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.4);
+        margin: 10px auto;
+        width: 100%;
+        max-width: 600px;
+    }
+
+        .quiz-card input[type="text"] {
+            background-color: #2a2a3f;
+            color: white;
+            border: 1px solid #444;
+            padding: 10px;
+            width: 100%;
+            border-radius: 8px;
+        }
+
+    .btn-submit, .btn-load {
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: bold;
+    }
+
+    .btn-submit {
+        background-color: #28a745;
+        border: none;
+        color: white;
+    }
+
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+
+    .btn-load {
+        background-color: #007bff;
+        color: white;
+        border: none;
+    }
+
+        .btn-load:hover {
+            background-color: #0069d9;
+        }
+
+    .score-box {
+        margin-top: 20px;
+        background-color: #1e2b3a;
+        border: 1px solid #00ffae;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .correct-answer {
+        color: #00ff00;
+        font-weight: bold;
+    }
+
+    .user-answer {
+        color: #ffda79;
+        font-weight: bold;
+    }
+</style>
+
+<div class="dropdown-section">
+    <h2>📝 Quiz</h2>
+    <form method="get" asp-controller="Quiz" asp-action="Index">
+        <label for="subject">Choose a subject:</label>
+        <select name="subject" id="subject" onchange="this.form.submit()" class="form-select w-50 d-inline-block mt-3 rounded-4">
+            @{
+                var hasSelected = !string.IsNullOrEmpty(selectedSubject);
+            }
+            <option disabled selected="@(!hasSelected)">Select subject</option>
+
+            @foreach (var subject in subjects)
+            {
+                <option value="@subject" selected="@(subject == selectedSubject)">
+                    @subject
+                </option>
+            }
+        </select>
+    </form>
+
+    <div class="mt-4">
+        <a href="/Home/Dashboard" class="btn btn-outline-light btn-custom px-4 py-2">🏠 Return to Dashboard</a>
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(selectedSubject) && questions.Any() && !submitted)
+{
+    <form method="post" asp-controller="Quiz" asp-action="Index" class="mt-5">
+        <input type="hidden" name="subject" value="@selectedSubject" />
+
+        @for (int i = 0; i < questions.Count; i++)
+        {
+            <div class="quiz-card">
+                <p><strong>Q@(i + 1):</strong> @questions[i].Question</p>
+                <input type="text" name="userAnswers[@i]" placeholder="Your answer here..." autocomplete="off" />
+                <input type="hidden" name="correctAnswers[@i]" value="@questions[i].Answer" />
+                <input type="hidden" name="originalQuestions[@i]" value="@questions[i].Question" />
+            </div>
+        }
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn-submit">✅ Submit Quiz</button>
+        </div>
+    </form>
+}
+else if (!string.IsNullOrEmpty(selectedSubject) && !questions.Any())
+{
+    <p class="text-center mt-5 text-warning">⚠️ No quiz content available for <strong>@selectedSubject</strong>.</p>
+}
+
+@if (submitted)
+{
+    <div class="score-box">
+        <h3 class="text-success">🎉 Your Score: @score / @questions.Count</h3>
+    </div>
+
+    <div class="mt-4">
+        @for (int i = 0; i < questions.Count; i++)
+        {
+            <div class="quiz-card">
+                <p><strong>Q@(i + 1):</strong> @questions[i].Question</p>
+                <p>Your answer: <span class="user-answer">@questions[i].UserAnswer</span></p>
+                <p>Correct answer: <span class="correct-answer">@questions[i].CorrectAnswer</span></p>
+            </div>
+        }
+    </div>
+}

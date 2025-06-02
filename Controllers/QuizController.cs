@@ -79,11 +79,20 @@ namespace GoogleOAuthDemo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(string subject, List<string> userAnswers, List<string> correctAnswers, List<string> originalQuestions)
+        public async Task<IActionResult> Index(string subject, List<string>? userAnswers, List<string>? correctAnswers, List<string>? originalQuestions)
         {
             ViewBag.Subjects = new List<string>();
             ViewBag.SelectedSubject = subject;
             ViewBag.Submitted = true;
+
+            if (userAnswers == null || correctAnswers == null || originalQuestions == null ||
+                userAnswers.Count != correctAnswers.Count || userAnswers.Count != originalQuestions.Count)
+            {
+                ViewBag.ErrorMessage = "⚠️ Submission error: Please answer all questions before submitting.";
+                ViewBag.Questions = new List<(string, string)>(); // send empty list
+                ViewBag.Score = 0;
+                return View();
+            }
 
             int score = 0;
             List<(string Question, string UserAnswer, string CorrectAnswer)> results = new();

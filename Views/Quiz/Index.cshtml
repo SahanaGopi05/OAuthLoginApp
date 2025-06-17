@@ -89,6 +89,20 @@
         color: #ffda79;
         font-weight: bold;
     }
+
+    /* 🔥 NEW: Timer box style */
+    #timer-box {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-top: 30px;
+        background-color: #21293b;
+        padding: 10px;
+        border-radius: 10px;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+        border: 2px dashed #00ffae;
+    }
 </style>
 
 <div class="dropdown-section">
@@ -117,7 +131,12 @@
 
 @if (!string.IsNullOrEmpty(selectedSubject) && quizList != null && quizList.Any() && !submitted)
 {
-    <form method="post" asp-controller="Quiz" asp-action="Index" class="mt-5">
+    <!-- ⏱️ NEW: Countdown Timer -->
+    <div id="timer-box">
+        ⏱️ Time Left: <span id="timer">05:00</span>
+    </div>
+
+    <form id="quiz-form" method="post" asp-controller="Quiz" asp-action="Index" class="mt-5">
         <input type="hidden" name="subject" value="@selectedSubject" />
 
         @for (int i = 0; i < quizList.Count; i++)
@@ -134,6 +153,30 @@
             <button type="submit" class="btn-submit">✅ Submit Quiz</button>
         </div>
     </form>
+
+    <!-- ⏱️ NEW: JavaScript for Countdown -->
+    <script>
+        let timeLeft = 300; // seconds = 5 minutes
+        const timerDisplay = document.getElementById('timer');
+        const quizForm = document.getElementById('quiz-form');
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            if (timeLeft === 0) {
+                clearInterval(timerInterval);
+                alert("⏰ Time's up! Your quiz will be submitted automatically.");
+                quizForm.submit();
+            }
+
+            timeLeft--;
+        }
+
+        const timerInterval = setInterval(updateTimer, 1000);
+        updateTimer(); // initial call
+    </script>
 }
 else if (!string.IsNullOrEmpty(selectedSubject) && (quizList == null || !quizList.Any()) && !submitted)
 {

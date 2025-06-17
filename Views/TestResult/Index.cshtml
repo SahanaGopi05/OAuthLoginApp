@@ -8,7 +8,14 @@
 <div class="container py-5">
     <h2 class="text-center mb-4">📊 Quiz Results</h2>
 
-    @if (!Model.Any())
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-danger text-center">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    @if (Model == null || !Model.Any())
     {
         <div class="card text-center text-white bg-secondary p-4">
             <h4>No test results available.</h4>
@@ -41,8 +48,9 @@
         </div>
     }
 
-    <div class="mt-4 d-flex justify-content-center">
-        <a href="/Home/Dashboard" class="btn btn-outline-light px-4 py-2 rounded-3">🏠 Return to Dashboard</a>
+    <div class="mt-4 d-flex justify-content-center gap-3">
+        <a asp-controller="Home" asp-action="Dashboard" class="btn btn-outline-light px-4 py-2 rounded-3">🏠 Return to Dashboard</a>
+        <a asp-controller="Quiz" asp-action="Index" class="btn btn-outline-light px-4 py-2 rounded-3">📝 Take Another Quiz</a>
     </div>
 </div>
 
@@ -97,6 +105,12 @@
     .btn-outline-light:hover {
         background-color: #ffffff;
         color: #000000;
+        font-weight: bold;
+    }
+
+    .btn-light:hover {
+        background-color: #e0e0e0;
+        color: #000;
         font-weight: bold;
     }
 </style>

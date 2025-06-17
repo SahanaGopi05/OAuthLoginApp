@@ -1,8 +1,0 @@
-ISS QUESTION BANK 1
-
-Q1: What are the three core principles of information security? :: Confidentiality, Integrity, and Availability (CIA) form the foundation of all security policies and procedures.
-Q2: What is encryption? :: Encryption converts data into a coded format to protect it from unauthorized access during storage or transmission.
-Q3: What is a firewall?:: A firewall is a security system that monitors and controls incoming and outgoing network traffic based on predetermined rules.
-Q4: What is phishing? :: Phishing is a social engineering attack where attackers trick users into revealing sensitive information like passwords or bank details.
-Q5: Why are strong passwords important? :: Strong passwords reduce the risk of unauthorized access by making it harder for hackers to guess or crack them.
-

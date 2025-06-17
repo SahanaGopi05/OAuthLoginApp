@@ -1,54 +1,78 @@
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using GoogleOAuthDemo.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
-public class FlashcardsController : Controller
+namespace GoogleOAuthDemo.Controllers
 {
-    private readonly IWebHostEnvironment _webHostEnvironment;
-
-    public FlashcardsController(IWebHostEnvironment webHostEnvironment)
+    [Authorize] // ✅ All logged-in users can access
+    public class FlashcardsController : Controller
     {
-        _webHostEnvironment = webHostEnvironment;
-    }
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly AppDbContext _context;
 
-    [HttpGet]
-    public IActionResult Index(string subject = null)
-    {
-        var flashcards = new List<(string, string)>();
-        string uploadRoot = Path.Combine(_webHostEnvironment.WebRootPath, "UploadedMaterials");
-
-        // Step 1: Get all subjects from folders
-        var subjects = Directory.Exists(uploadRoot)
-            ? Directory.GetDirectories(uploadRoot).Select(Path.GetFileName).ToList()
-            : new List<string>();
-
-        // Step 2: If subject selected, parse the files
-        if (!string.IsNullOrEmpty(subject))
+        public FlashcardsController(
+            IWebHostEnvironment webHostEnvironment,
+            AppDbContext context)
         {
-            string subjectPath = Path.Combine(uploadRoot, subject);
-            if (Directory.Exists(subjectPath))
+            _webHostEnvironment = webHostEnvironment;
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index(string subject = null)
+        {
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            if (string.IsNullOrEmpty(userEmail))
+                return Unauthorized(); // Just a safety check
+
+            var flashcards = new List<(string, string)>();
+
+            // ✅ Get all available subjects from the database
+            var subjects = await _context.UploadedMaterials
+                .Select(m => m.Subject)
+                .Distinct()
+                .ToListAsync();
+
+            if (!string.IsNullOrEmpty(subject))
             {
-                var files = Directory.GetFiles(subjectPath);
-                foreach (var file in files)
+                var materials = await _context.UploadedMaterials
+                    .Where(m => m.Subject == subject)
+                    .ToListAsync();
+
+                foreach (var material in materials)
                 {
-                    var lines = System.IO.File.ReadAllLines(file);
-                    foreach (var line in lines)
+                    string safePath = material.FilePath?.TrimStart('/');
+                    if (!string.IsNullOrEmpty(safePath))
                     {
-                        var parts = line.Split("::");
-                        if (parts.Length == 2)
+                        string fullPath = Path.Combine(_webHostEnvironment.WebRootPath, safePath.Replace('/', Path.DirectorySeparatorChar));
+
+                        if (System.IO.File.Exists(fullPath))
                         {
-                            flashcards.Add((parts[0].Trim(), parts[1].Trim()));
+                            var lines = System.IO.File.ReadAllLines(fullPath);
+                            foreach (var line in lines)
+                            {
+                                var parts = line.Split("::");
+                                if (parts.Length == 2)
+                                {
+                                    flashcards.Add((parts[0].Trim(), parts[1].Trim()));
+                                }
+                            }
                         }
                     }
                 }
             }
+
+            ViewBag.Subjects = subjects;
+            ViewBag.SelectedSubject = subject;
+            ViewBag.Flashcards = flashcards;
+
+            return View();
         }
-
-        ViewBag.Subjects = subjects;
-        ViewBag.SelectedSubject = subject;
-        ViewBag.Flashcards = flashcards;
-
-        return View();
     }
 }

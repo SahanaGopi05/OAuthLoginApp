@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace GoogleOAuthDemo.Models
 {
@@ -10,5 +10,7 @@ namespace GoogleOAuthDemo.Models
         }
 
         public DbSet<TestResult> TestResults { get; set; }
+        public DbSet<UploadedMaterial> UploadedMaterials { get; set; }
+        public DbSet<User> Users { get; set; } // ✅ Added this line
     }
 }

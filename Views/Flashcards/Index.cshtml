@@ -43,27 +43,26 @@
     }
 
     .front, .back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 15px;
-    padding: 15px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    display: flex;
-    align-items: flex-start; /* Align text to the top */
-    justify-content: center;
-    font-weight: normal;
-    text-align: left;
-    font-size: clamp(0.85rem, 1.8vw, 1rem); /* 👈 Place it here */
-    line-height: 1.4;
-    overflow-y: auto;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-    scrollbar-width: thin;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 15px;
+        padding: 15px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        font-weight: normal;
+        text-align: left;
+        font-size: clamp(0.85rem, 1.8vw, 1rem);
+        line-height: 1.4;
+        overflow-y: auto;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        scrollbar-width: thin;
     }
-
 
     .front {
         background-color: #2a2a3f;
@@ -85,47 +84,44 @@
         left: 20px;
     }
 
-    .back-btn a {
-        background-color: #ff6b6b;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 10px;
-        text-decoration: none;
-        font-weight: bold;
-    }
+        .back-btn a {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-    .back-btn a:hover {
-        background-color: #e65050;
-    }
+            .back-btn a:hover {
+                background-color: #e65050;
+            }
 </style>
-
 
 <div class="dropdown-section">
     <h2>🧠 Flashcards</h2>
     <form method="get">
         <label for="subject">Choose a subject:</label>
         <select name="subject" id="subject" onchange="this.form.submit()" class="form-select w-50 d-inline-block mt-3 rounded-4">
-            @{
-                if (string.IsNullOrEmpty(selected))
+            @if (string.IsNullOrEmpty(selected))
+            {
+                <option disabled selected>Select subject</option>
+            }
+            else
+            {
+                <option disabled>Select subject</option>
+            }
+
+            @foreach (var subject in subjects)
+            {
+                if (subject == selected)
                 {
-                    <text><option disabled selected>Select subject</option></text>
+                    <option value="@subject" selected>@subject</option>
                 }
                 else
                 {
-                    <text><option disabled>Select subject</option></text>
-                }
-
-                foreach (var subject in subjects)
-                {
-                    if (subject == selected)
-                    {
-                        <text><option value="@subject" selected>@subject</option></text>
-                    }
-                    else
-                    {
-                        <text><option value="@subject">@subject</option></text>
-                    }
+                    <option value="@subject">@subject</option>
                 }
             }
         </select>
@@ -134,7 +130,6 @@
     <div class="mt-4">
         <a href="/Home/Dashboard" class="btn btn-outline-light btn-custom px-4 py-2">🏠 Return to Dashboard</a>
     </div>
-
 </div>
 
 @if (flashcards != null && flashcards.Count > 0)

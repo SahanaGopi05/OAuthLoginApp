@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<GoogleOAuthDemo.Models.UploadedMaterial>
+@{
     ViewData["Title"] = "Upload Materials";
 }
 
@@ -23,6 +24,36 @@
         border-radius: 15px;
         font-weight: 500;
     }
+
+    .upload-list {
+        background-color: #2c2c3f;
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 20px;
+    }
+
+    .upload-item {
+        padding: 10px 0;
+        border-bottom: 1px solid #444;
+    }
+
+        .upload-item:last-child {
+            border-bottom: none;
+        }
+
+    .upload-timestamp {
+        font-size: 0.9rem;
+        color: #bbb;
+    }
+
+    a.file-link {
+        color: #4fc3f7;
+        text-decoration: none;
+    }
+
+        a.file-link:hover {
+            text-decoration: underline;
+        }
 </style>
 
 <div class="container mt-5">
@@ -35,6 +66,13 @@
                 {
                     <div class="alert alert-success text-center rounded-4 shadow-sm">
                         @Html.Raw(ViewBag.Message)
+                    </div>
+                }
+
+                @if (TempData["Message"] != null)
+                {
+                    <div class="alert alert-info text-center rounded-4 shadow-sm">
+                        @Html.Raw(TempData["Message"])
                     </div>
                 }
 
@@ -52,10 +90,35 @@
                     </div>
                 </form>
 
-                <!-- ✅ Fixed Return to Dashboard Button -->
                 <div class="text-center mt-4">
                     <a href="/Home/Dashboard" class="btn btn-outline-light btn-custom px-4 py-2">🏠 Return to Dashboard</a>
                 </div>
+
+                @if (Model != null && Model.Count > 0)
+                {
+                    <div class="upload-list mt-5">
+                        <h5 class="text-center mb-3">📚 Your Uploaded Materials</h5>
+                        @foreach (var item in Model)
+                        {
+                            <div class="upload-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>@item.Subject</strong> —
+                                    <a href="@item.FilePath" class="file-link" target="_blank">@item.FileName</a>
+                                    <div class="upload-timestamp">
+                                        Uploaded: @item.UploadedAt.ToLocalTime().ToString("f")
+                                    </div>
+                                </div>
+                                <form method="post" asp-action="Delete" asp-controller="Upload" asp-route-id="@item.Id" onsubmit="return confirm('Are you sure you want to delete this file?');">
+                                    <button type="submit" class="btn btn-sm btn-danger ms-3">🗑 Delete</button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-center mt-4 text-light">No materials uploaded yet.</p>
+                }
             </div>
         </div>
     </div>

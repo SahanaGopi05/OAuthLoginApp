@@ -1,6 +1,7 @@
 ﻿using GoogleOAuthDemo.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,10 +9,11 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace GoogleOAuthDemo.Controllers
 {
-    [Authorize]
+    [Authorize] // ✅ Allow all authenticated users (Admin + Student)
     public class QuizController : Controller
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -24,16 +26,16 @@ namespace GoogleOAuthDemo.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string? subject = null)
+        public async Task<IActionResult> Index(string? subject = null)
         {
-            string uploadsRoot = Path.Combine(_webHostEnvironment.WebRootPath, "UploadedMaterials");
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            if (string.IsNullOrEmpty(userEmail))
+                return Unauthorized();
 
-            var subjects = Directory.Exists(uploadsRoot)
-                ? Directory.GetDirectories(uploadsRoot)
-                    .Select(Path.GetFileName)
-                    .Where(s => !string.IsNullOrWhiteSpace(s))
-                    .ToList()
-                : new List<string>();
+            var subjects = await _context.UploadedMaterials
+                .Select(u => u.Subject)
+                .Distinct()
+                .ToListAsync();
 
             ViewBag.Subjects = subjects;
             ViewBag.SelectedSubject = subject;
@@ -43,27 +45,32 @@ namespace GoogleOAuthDemo.Controllers
 
             if (!string.IsNullOrEmpty(subject))
             {
-                string subjectPath = Path.Combine(uploadsRoot, subject);
-                if (Directory.Exists(subjectPath))
-                {
-                    var files = Directory.GetFiles(subjectPath);
+                var materials = await _context.UploadedMaterials
+                    .Where(u => u.Subject == subject)
+                    .ToListAsync();
 
-                    foreach (var file in files)
+                foreach (var material in materials)
+                {
+                    var fullPath = Path.Combine(
+                        _webHostEnvironment.WebRootPath,
+                        material.FilePath.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
+
+                    if (System.IO.File.Exists(fullPath))
                     {
-                        var lines = System.IO.File.ReadAllLines(file);
+                        var lines = System.IO.File.ReadAllLines(fullPath);
                         foreach (var line in lines)
                         {
                             if (!string.IsNullOrWhiteSpace(line) && line.Contains("::"))
                             {
-                                var parts = line.Split(new string[] { "::" }, StringSplitOptions.None);
+                                var parts = line.Split("::", StringSplitOptions.None);
                                 if (parts.Length >= 2)
                                 {
-                                    string questionPart = Regex.Replace(parts[0].Trim(), @"^Q\d*\s*:\s*", "", RegexOptions.IgnoreCase);
-                                    string answerPart = parts[1].Trim();
+                                    string question = Regex.Replace(parts[0].Trim(), @"^Q\d*\s*:\s*", "", RegexOptions.IgnoreCase);
+                                    string answer = parts[1].Trim();
 
-                                    if (!string.IsNullOrEmpty(questionPart) && !string.IsNullOrEmpty(answerPart))
+                                    if (!string.IsNullOrEmpty(question) && !string.IsNullOrEmpty(answer))
                                     {
-                                        questions.Add((questionPart, answerPart));
+                                        questions.Add((question, answer));
                                     }
                                 }
                             }
@@ -81,15 +88,22 @@ namespace GoogleOAuthDemo.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string subject, List<string>? userAnswers, List<string>? correctAnswers, List<string>? originalQuestions)
         {
-            ViewBag.Subjects = new List<string>();
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            var username = User.Identity?.Name ?? "Anonymous";
+
             ViewBag.SelectedSubject = subject;
             ViewBag.Submitted = true;
+
+            ViewBag.Subjects = await _context.UploadedMaterials
+                .Select(u => u.Subject)
+                .Distinct()
+                .ToListAsync();
 
             if (userAnswers == null || correctAnswers == null || originalQuestions == null ||
                 userAnswers.Count != correctAnswers.Count || userAnswers.Count != originalQuestions.Count)
             {
                 ViewBag.ErrorMessage = "⚠️ Submission error: Please answer all questions before submitting.";
-                ViewBag.Questions = new List<(string, string)>(); // send empty list
+                ViewBag.Questions = new List<(string, string)>();
                 ViewBag.Score = 0;
                 return View();
             }
@@ -116,7 +130,8 @@ namespace GoogleOAuthDemo.Controllers
 
             var result = new TestResult
             {
-                Username = User.Identity?.Name ?? "Anonymous",
+                Username = username,
+                UserEmail = userEmail ?? "anonymous@example.com",
                 Subject = subject,
                 Score = score,
                 DateTaken = DateTime.Now

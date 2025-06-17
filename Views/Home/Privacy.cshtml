@@ -1,6 +1,95 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Ensure your layout includes the dark gradient background
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<style>
+    body {
+        background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+        color: #ffffff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .card {
+        max-width: 900px;
+        margin: 50px auto;
+        background: linear-gradient(90deg,rgba(31, 28, 44, 1) 8%, rgba(80, 70, 94, 1) 73%, rgba(113, 105, 135, 1) 100%);
+        border-radius: 16px;
+        padding: 30px 40px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+    }
+
+        .card h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .card h2 {
+            margin-top: 30px;
+            color: #f0e9ff;
+        }
+
+        .card ul {
+            padding-left: 20px;
+        }
+
+        .card p, .card li {
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        .card strong {
+            color: #ffffff;
+        }
+</style>
+
+
+<div class="card">
+    <h1>@ViewData["Title"]</h1>
+
+    <p>
+        This Privacy Policy describes how we collect, use, and protect the personal information you provide when using our educational web application.
+    </p>
+
+    <h2>Information We Collect</h2>
+    <ul>
+        <li><strong>Personal Information:</strong> When you sign in using Google OAuth, we collect your name and email address for authentication purposes only.</li>
+        <li><strong>Uploaded Content:</strong> Any study materials you upload (documents, notes, etc.) are stored securely and used only for generating flashcards and quizzes.</li>
+        <li><strong>Quiz Results:</strong> We may store your quiz results to help you track progress over time.</li>
+    </ul>
+
+    <h2>How We Use Your Information</h2>
+    <ul>
+        <li>To personalize your dashboard and content recommendations.</li>
+        <li>To allow access to your uploaded study materials and generate flashcards/quizzes.</li>
+        <li>To analyze app usage for performance improvement and better user experience.</li>
+    </ul>
+
+    <h2>Information Sharing</h2>
+    <p>
+        We do not sell, trade, or otherwise transfer your personal information to outside parties. Your data is accessible only to you and is used strictly within the application for educational purposes.
+    </p>
+
+    <h2>Data Security</h2>
+    <p>
+        We implement industry-standard security measures to protect your data. Uploaded files and personal information are stored securely within our application environment.
+    </p>
+
+    <h2>Third-Party Services</h2>
+    <p>
+        We use Google OAuth for login purposes. Please refer to Google’s privacy policy to understand how they handle your authentication data.
+    </p>
+
+    <h2>Changes to This Policy</h2>
+    <p>
+        This policy may be updated periodically. We will notify users of any major changes through the application.
+    </p>
+
+    <h2>Contact Us</h2>
+    <p>
+        If you have any questions or concerns regarding this privacy policy, please contact us at <strong>support@youreducationapp.com</strong>.
+    </p>
+</div>

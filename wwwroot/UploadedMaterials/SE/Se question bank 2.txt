@@ -1,7 +1,0 @@
-Se question bank 2
-•  Q: Verification vs Validation? :: Verification checks specs; validation checks user needs.
-•  Q: Advantage of Waterfall model? :: Simple and easy to manage with clear stages.
-•  Q: What is refactoring? :: Improving code without changing behavior.
-•  Q: Purpose of unit testing? :: Test individual components for correctness.
-•  Q: Importance of documentation? :: Helps maintain and update software effectively.
-
